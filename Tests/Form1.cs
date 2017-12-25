@@ -36,6 +36,49 @@ namespace Tests
                 MessageBox.Show("Current video in progress.");
             }
         }
+
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            textBox2.Text = "";
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "Video file|*.mp4";
+                sfd.FileName = returnTitle();
+                sfd.ShowDialog();
+
+                using (var client = new WebClient())
+                {
+                    client.DownloadFileAsync(new Uri(textBox2.Text), sfd.FileName);
+                    client.DownloadProgressChanged += Client_DownloadProgressChanged;
+                    client.DownloadFileCompleted += Client_DownloadFileCompleted;
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void Client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            progressBar1.Value = 0;
+            textBox1.Text = "";
+        }
+
+        private void Client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            progressBar1.Minimum = 0;
+            double receive = double.Parse(e.BytesReceived.ToString());
+            double total = double.Parse(e.TotalBytesToReceive.ToString());
+            double percentage = receive / total * 100;
+            progressBar1.Value = int.Parse(Math.Truncate(percentage).ToString());
+        }
         #endregion
 
         #region Methods
@@ -98,46 +141,5 @@ namespace Tests
 
         #endregion
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            textBox2.Text = "";
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                SaveFileDialog sfd = new SaveFileDialog();
-                sfd.Filter = "Video file|*.mp4";
-                sfd.FileName = returnTitle(); 
-                sfd.ShowDialog();
-
-                using (var client = new WebClient())
-                {
-                    client.DownloadFileAsync(new Uri(textBox2.Text), sfd.FileName);
-                    client.DownloadProgressChanged += Client_DownloadProgressChanged;
-                    client.DownloadFileCompleted += Client_DownloadFileCompleted;
-                }
-            }
-            catch
-            {
-
-            }
-        }
-
-        private void Client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
-        {
-            progressBar1.Value = 0;
-            textBox1.Text = "";
-        }
-
-        private void Client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
-        {
-            progressBar1.Minimum = 0;
-            double receive = double.Parse(e.BytesReceived.ToString());
-            double total = double.Parse(e.TotalBytesToReceive.ToString());
-            double percentage = receive / total * 100;
-            progressBar1.Value = int.Parse(Math.Truncate(percentage).ToString());
-        }
     }
 }
