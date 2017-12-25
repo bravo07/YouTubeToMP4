@@ -1,0 +1,11 @@
+c:\users\frenzied\documents\visual studio 2015\Projects\Tests\Tests\bin\Debug\Tests.exe.config
+c:\users\frenzied\documents\visual studio 2015\Projects\Tests\Tests\bin\Debug\Tests.exe
+c:\users\frenzied\documents\visual studio 2015\Projects\Tests\Tests\bin\Debug\Tests.pdb
+c:\users\frenzied\documents\visual studio 2015\Projects\Tests\Tests\bin\Debug\Newtonsoft.Json.dll
+c:\users\frenzied\documents\visual studio 2015\Projects\Tests\Tests\bin\Debug\Newtonsoft.Json.xml
+c:\users\frenzied\documents\visual studio 2015\Projects\Tests\Tests\obj\Debug\Tests.MainForm.resources
+c:\users\frenzied\documents\visual studio 2015\Projects\Tests\Tests\obj\Debug\Tests.Properties.Resources.resources
+c:\users\frenzied\documents\visual studio 2015\Projects\Tests\Tests\obj\Debug\YouTubeToMP4.csproj.GenerateResource.Cache
+c:\users\frenzied\documents\visual studio 2015\Projects\Tests\Tests\obj\Debug\Tests.exe
+c:\users\frenzied\documents\visual studio 2015\Projects\Tests\Tests\obj\Debug\Tests.pdb
+c:\users\frenzied\documents\visual studio 2015\Projects\Tests\Tests\obj\Debug\YouTubeToMP4.csprojResolveAssemblyReference.cache
