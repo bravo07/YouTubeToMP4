@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -65,6 +66,36 @@ namespace Tests
             }
         }
 
+        public string returnTitle()
+        {
+            HttpWebRequest req = WebRequest.CreateHttp(textBox1.Text);
+            req.Method = "GET";
+            req.KeepAlive = true;
+            req.UserAgent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36";
+            req.Headers.Add("Upgrade-Insecure-Requests", "1");
+            req.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8";
+            req.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+            req.Headers.Add("Accept-Language", "en-US,en;q=0.9");
+
+            using (var streamReader = new StreamReader(req.GetResponse().GetResponseStream()))
+            {
+                string response = streamReader.ReadToEnd();
+                string pattern = @"document.title = ""(.*?)"";";
+                string title = Regex.Match(response, pattern).Groups[1].Value;
+                return MakeValidFileName(title);
+            }
+        }
+
+        private static string MakeValidFileName(string name)
+        {
+            foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+            {
+                name = name.Replace(c, '_');
+            }
+
+            return name;
+        }
+
         #endregion
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -78,6 +109,7 @@ namespace Tests
             {
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Filter = "Video file|*.mp4";
+                sfd.FileName = returnTitle(); 
                 sfd.ShowDialog();
 
                 using (var client = new WebClient())
